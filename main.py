@@ -112,39 +112,3 @@ with col2:
             st.metric("Porcentaje de Victorias", f"{win_percentage:.1f}%")
     else:
         st.warning("No hay datos disponibles para la selección actual.")
-
-st.divider()
-st.subheader("Estadísticas Detalladas")
-
-if len(filtered_data) > 0:
-    col3, col4, col5, col6 = st.columns(4)
-    
-    with col3:
-        st.metric("Victorias", total_wins)
-    
-    with col4:
-        st.metric("Derrotas", total_losses)
-    
-    with col5:
-        avg_pts = filtered_data['pts'].mean()
-        st.metric("Puntos Promedio", f"{avg_pts:.1f}")
-    
-    with col6:
-        avg_opp_pts = filtered_data['opp_pts'].mean()
-        st.metric("Puntos Rival Promedio", f"{avg_opp_pts:.1f}")
-    
-    with st.expander("Ver datos detallados"):
-        display_data = filtered_data[['date_game', 'team_id', 'pts', 'opp_id', 'opp_pts', 
-                                       'game_location', 'game_result', 'is_playoffs']].copy()
-        display_data['is_playoffs'] = display_data['is_playoffs'].map({0: 'Regular', 1: 'Playoffs'})
-        display_data = display_data.rename(columns={
-            'date_game': 'Fecha',
-            'team_id': 'Equipo',
-            'pts': 'Puntos',
-            'opp_id': 'Rival',
-            'opp_pts': 'Puntos Rival',
-            'game_location': 'Ubicación',
-            'game_result': 'Resultado',
-            'is_playoffs': 'Tipo'
-        })
-        st.dataframe(display_data, width='stretch')
